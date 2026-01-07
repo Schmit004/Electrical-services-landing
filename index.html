@@ -2,19 +2,25 @@
 <html lang="ru">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="ЭМ-Строй - профессиональные электромонтажные работы в Нягани и Ханты-Мансийском автономном округе">
-    <meta name="keywords" content="электромонтаж, электрик, услуги, Нягань, ХМАО">
-    <meta property="og:title" content="ЭМ-Строй | Электромонтажные услуги">
-    <meta property="og:description"
-        content="Профессиональные электромонтажные работы - жилые, коммерческие и промышленные объекты">
-    <meta property="og:type" content="website">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>ЭМ-Строй | Профессиональные электромонтажные работы</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Импульс Инжиниринг — электромонтажные работы в Нягани и ХМАО</title>
+    <meta name="description"
+        content="Импульс Инжиниринг: электромонтаж, электроснабжение, КИПиА, уличное освещение, пусконаладка. Опыт 15+ лет. Работаем с жилыми, коммерческими и промышленными объектами." />
+    <meta name="keywords"
+        content="электромонтаж, электроснабжение, КИПиА, уличное освещение, Нягань, ХМАО, Импульс Инжиниринг" />
+
+    <meta property="og:title" content="Импульс Инжиниринг — электромонтажные работы" />
+    <meta property="og:description" content="Электромонтажные работы для жилых, коммерческих и промышленных объектов. Опыт 15+ лет." />
+    <meta property="og:type" content="website" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sansation:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Tektur:wght@400..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 
 <body>
@@ -23,339 +29,290 @@
         <nav class="navbar">
             <div class="container">
                 <div class="navbar__content">
-                    <div class="navbar__logo">
-                        <img src="assets/Logo.jpg" width="40" height="40" alt="Logo">
-                        <span class="logo__text">ЭМ-Строй</span>
-                    </div>
+                    <picture>
+                        <source srcset="assets/logo-mobile.png" media="(max-width: 860px)" />
+                        <img class="logo__image" src="assets/logo-desktop.png" width="80" height="72" alt="Импульс Инжиниринг" />
+                    </picture>
 
-
-                    <button class="navbar__toggle" id="menuToggle" aria-label="Переключить меню">
-                        <span></span>
-                        <span></span>
-                        <span></span>
+                    <button class="navbar__toggle" id="menuToggle" aria-label="Открыть меню" aria-expanded="false"
+                        aria-controls="navMenu">
+                        <span></span><span></span><span></span>
                     </button>
 
                     <ul class="navbar__menu" id="navMenu">
                         <li><a href="#about" class="nav-link">О компании</a></li>
                         <li><a href="#services" class="nav-link">Услуги</a></li>
                         <li><a href="#portfolio" class="nav-link">Портфолио</a></li>
-                        <li><a href="#clients" class="nav-link">Клиенты</a></li>
                         <li><a href="#contacts" class="nav-link">Контакты</a></li>
                     </ul>
 
-                    <a href="#contacts" class="btn btn--primary btn--sm">Заказать</a>
+                    <a href="#contacts" class="btn btn--primary btn--sm navbar__cta">
+                        <i class="fas fa-phone"></i>
+                        Связаться
+                    </a>
                 </div>
             </div>
         </nav>
     </header>
 
-    <!-- HERO SECTION -->
-    <section class="hero" id="hero">
-        <div class="hero__overlay"></div>
-        <div class="container">
-            <div class="hero__content">
-                <h1 class="hero__title animate-fade-up">
-                    Профессиональные электромонтажные услуги
-                </h1>
-                <p class="hero__subtitle animate-fade-up" style="animation-delay: 0.1s;">
-                    Качественное электроснабжение для жилых, коммерческих и промышленных объектов
-                </p>
-                <div class="hero__buttons animate-fade-up" style="animation-delay: 0.2s;">
-                    <a href="#contacts" class="btn btn--primary btn--large pulse">
-                        <i class="fas fa-phone"></i> Получить консультацию
-                    </a>
-                    <a href="#portfolio" class="btn btn--secondary btn--large">
-                        <i class="fas fa-images"></i> Смотреть работы
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+    <main>
+        <!-- HERO SECTION -->
+        <section class="hero" id="hero">
+            <div class="hero__bg" aria-hidden="true"></div>
 
-    <!-- ABOUT SECTION -->
-    <section class="about" id="about">
-        <div class="container">
-            <h2 class="section-title">О компании</h2>
+            <div class="container">
+                <div class="hero__grid">
+                    <div class="hero__content reveal">
+                        <h1 class="hero__title">Профессиональные электромонтажные услуги</h1>
+                        <p class="hero__subtitle">
+                            Импульс Инжиниринг — команда специалистов с опытом более 15 лет. Реализуем проекты “под ключ”:
+                            от обследования и
+                            подбора решений до монтажа и пусконаладки.
+                        </p>
 
-            <div class="about__content">
-                <div class="about__text">
-                    <p>
-                        ЭМ-Строй — это команда профессионалов с опытом более 15 лет в сфере электромонтажных работ.
-                        Мы успешно реализовали более сотни проектов различной сложности.
-                    </p>
-                    <p>
-                        Наша команда специализируется на электромонтажных работах в жилых, коммерческих и промышленных
-                        помещениях, включая объекты нефтегазовой отрасли и электроэнергетики.
-                    </p>
-                </div>
-
-                <div class="features-grid">
-                    <div class="feature-card animate-fade-up">
-                        <div class="feature-card__icon">
-                            <i class="fas fa-award"></i>
+                        <div class="hero__buttons">
+                            <a href="#contacts" class="btn btn--primary btn--lg">
+                                <i class="fas fa-paper-plane"></i>
+                                Оставить заявку
+                            </a>
+                            <a href="#portfolio" class="btn btn--secondary btn--lg">
+                                <i class="fas fa-layer-group"></i>
+                                Смотреть проекты
+                            </a>
                         </div>
-                        <h3>С 2007 года</h3>
-                        <p>Более 15 лет опыта на рынке</p>
                     </div>
 
-                    <div class="feature-card animate-fade-up" style="animation-delay: 0.1s;">
-                        <div class="feature-card__icon">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
-                        <h3>100+ проектов</h3>
-                        <p>Успешно реализованные объекты</p>
-                    </div>
+                    <aside class="hero__panel reveal" aria-label="Преимущества">
+                        <div class="glass-panel">
+                            <h2 class="panel__title">Почему выбирают нас</h2>
+                            <ul class="panel__list">
+                                <li><i class="fa-solid fa-shield-halved"></i> Прозрачные сроки и смета</li>
+                                <li><i class="fa-solid fa-bolt"></i> Работаем с промышленными объектами</li>
+                                <li><i class="fa-solid fa-screwdriver-wrench"></i> Монтаж и пусконаладка</li>
+                                <li><i class="fa-solid fa-file-circle-check"></i> Документация и сопровождение</li>
+                            </ul>
 
-                    <div class="feature-card animate-fade-up" style="animation-delay: 0.2s;">
-                        <div class="feature-card__icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <h3>10+ специалистов</h3>
-                        <p>Профессиональная команда</p>
-                    </div>
-
-                    <div class="feature-card animate-fade-up" style="animation-delay: 0.3s;">
-                        <div class="feature-card__icon">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <h3>Гарантия качества</h3>
-                        <p>Полная ответственность за работы</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SERVICES SECTION -->
-    <section class="services" id="services">
-        <div class="container">
-            <h2 class="section-title">Наши услуги</h2>
-
-            <div class="services-grid">
-                <div class="service-card animate-fade-up">
-                    <div class="service-card__icon">
-                        <i class="fas fa-clipboard-check"></i>
-                    </div>
-                    <h3>Проверка проектной документации</h3>
-                    <p>Профессиональная оценка проектов, выявление слабых мест и рекомендации по доработкам</p>
-                </div>
-
-                <div class="service-card animate-fade-up" style="animation-delay: 0.05s;">
-                    <div class="service-card__icon">
-                        <i class="fas fa-plug"></i>
-                    </div>
-                    <h3>Электромонтажные работы</h3>
-                    <p>Полный спектр электромонтажа в жилых, коммерческих и промышленных помещениях</p>
-                </div>
-
-                <div class="service-card animate-fade-up" style="animation-delay: 0.1s;">
-                    <div class="service-card__icon">
-                        <i class="fas fa-lightbulb"></i>
-                    </div>
-                    <h3>Уличное электроснабжение</h3>
-                    <p>Электроснабжение и уличное освещение, включая монтаж и подключение оборудования</p>
-                </div>
-
-                <div class="service-card animate-fade-up" style="animation-delay: 0.15s;">
-                    <div class="service-card__icon">
-                        <i class="fas fa-cogs"></i>
-                    </div>
-                    <h3>КИП и автоматика</h3>
-                    <p>Монтаж контрольно-измерительных приборов и систем автоматизации</p>
-                </div>
-
-                <div class="service-card animate-fade-up" style="animation-delay: 0.2s;">
-                    <div class="service-card__icon">
-                        <i class="fas fa-fan"></i>
-                    </div>
-                    <h3>Вентиляция и климат</h3>
-                    <p>Монтаж и пусконаладка электрической составляющей систем вентиляции и климат-контроля</p>
-                </div>
-
-                <div class="service-card animate-fade-up" style="animation-delay: 0.25s;">
-                    <div class="service-card__icon">
-                        <i class="fas fa-truck"></i>
-                    </div>
-                    <h3>Логистика материалов</h3>
-                    <p>Поиск поставщиков, заказ расходных материалов и подготовка документации</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- PORTFOLIO SECTION -->
-    <section class="portfolio" id="portfolio">
-        <div class="container">
-            <h2 class="section-title">Галерея наших работ</h2>
-
-            <div class="gallery-filters" id="galleryFilters">
-                <button class="filter-btn active" data-filter="all">Все работы</button>
-                <button class="filter-btn" data-filter="residential">Жилые объекты</button>
-                <button class="filter-btn" data-filter="commercial">Коммерческие</button>
-                <button class="filter-btn" data-filter="industrial">Промышленные</button>
-                <button class="filter-btn" data-filter="outdoor">Уличные работы</button>
-                <button class="filter-btn" data-filter="ventilation">Вентиляция</button>
-            </div>
-
-            <div class="gallery-grid" id="galleryGrid">
-                <!-- Фото будут загружены JavaScript'ом -->
-            </div>
-
-            <div class="gallery-load-more">
-                <button class="btn btn--secondary" id="loadMoreBtn">
-                    <i class="fas fa-plus"></i> Загрузить ещё
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- CLIENTS SECTION (вместо Testimonials) -->
-    <section class="clients" id="clients">
-        <div class="container">
-            <h2 class="section-title">Компании-партнёры</h2>
-            <p class="section-subtitle">Мы работали с ведущими компаниями и успешно реализовали их проекты</p>
-
-            <div class="clients-grid">
-                <div class="client-card animate-fade-up">
-                    <div class="client-card__logo">
-                        <i class="fas fa-building"></i>
-                    </div>
-                    <h3>Инвестрегионстрой</h3>
-                </div>
-
-                <div class="client-card animate-fade-up" style="animation-delay: 0.05s;">
-                    <div class="client-card__logo">
-                        <i class="fas fa-building"></i>
-                    </div>
-                    <h3>Талспецстрой</h3>
-                </div>
-
-                <div class="client-card animate-fade-up" style="animation-delay: 0.1s;">
-                    <div class="client-card__logo">
-                        <i class="fas fa-building"></i>
-                    </div>
-                    <h3>Няганьская ГРЭС</h3>
-                </div>
-
-                <div class="client-card animate-fade-up" style="animation-delay: 0.15s;">
-                    <div class="client-card__logo">
-                        <i class="fas fa-building"></i>
-                    </div>
-                    <h3>Роснефть</h3>
-                </div>
-
-                <div class="client-card animate-fade-up" style="animation-delay: 0.2s;">
-                    <div class="client-card__logo">
-                        <i class="fas fa-building"></i>
-                    </div>
-                    <h3>Няганьгазпереработка (НГП)</h3>
-                </div>
-
-                <div class="client-card animate-fade-up" style="animation-delay: 0.25s;">
-                    <div class="client-card__logo">
-                        <i class="fas fa-building"></i>
-                    </div>
-                    <h3>ООО СТРОЙГРАД</h3>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CONTACTS SECTION -->
-    <section class="contacts" id="contacts">
-        <div class="container">
-            <h2 class="section-title">Свяжитесь с нами</h2>
-
-            <div class="contacts-grid">
-                <!-- Форма -->
-                <div class="contact-form-wrapper">
-                    <h3>Оставить заявку</h3>
-                    <form class="contact-form" id="contactForm">
-                        <div class="form-group">
-                            <label for="name">Ваше имя</label>
-                            <input type="text" id="name" name="name" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="phone">Телефон</label>
-                            <input type="tel" id="phone" name="phone" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="message">Сообщение</label>
-                            <textarea id="message" name="message" rows="4" required></textarea>
-                        </div>
-
-                        <button type="submit" class="btn btn--primary btn--large">
-                            <i class="fas fa-paper-plane"></i> Отправить
-                        </button>
-                        <p class="form-status" id="formStatus"></p>
-                    </form>
-                </div>
-
-                <!-- Контактная информация -->
-                <div class="contact-info-wrapper">
-                    <h3>Информация</h3>
-
-                    <div class="contact-info">
-                        <div class="contact-info__item">
-                            <i class="fas fa-map-pin"></i>
-                            <div>
-                                <h4>Адрес</h4>
-                                <p>г. Нягань, Ханты-Мансийский автономный округ, Россия</p>
+                            <div class="panel__cta">
+                                <a class="btn btn--outline btn--full" href="#contacts">
+                                    <i class="fa-solid fa-phone"></i>
+                                    Запросить расчёт
+                                </a>
                             </div>
                         </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
 
-                        <div class="contact-info__item">
-                            <i class="fas fa-phone"></i>
-                            <div>
-                                <h4>Телефон</h4>
-                                <a href="tel:+79991234567">+7 (999) 123-45-67</a>
+        <!-- ABOUT SECTION -->
+        <section class="about" id="about">
+            <div class="container">
+                <h2 class="section-title reveal">О компании</h2>
+
+                <div class="about__grid">
+                    <div class="about__text reveal">
+                        <p>
+                            Импульс Инжиниринг — это команда профессионалов с опытом более 15 лет в сфере электромонтажных
+                            работ.
+                            Мы успешно реализовали более сотни проектов различной сложности.
+                        </p>
+                        <p>
+                            Специализируемся на электромонтажных работах в жилых, коммерческих и промышленных
+                            помещениях, включая объекты
+                            нефтегазовой отрасли и электроэнергетики.
+                        </p>
+                    </div>
+
+                    <div class="features-grid">
+                        <article class="feature-card reveal">
+                            <div class="feature-card__icon"><i class="fas fa-award"></i></div>
+                            <h3>С 2007 года на рынке</h3>
+                            <p>Практический опыт и отработанные процессы.</p>
+                        </article>
+
+                        <article class="feature-card reveal">
+                            <div class="feature-card__icon"><i class="fas fa-check-circle"></i></div>
+                            <h3>100+ проектов</h3>
+                            <p>От квартир до производственных площадок.</p>
+                        </article>
+
+                        <article class="feature-card reveal">
+                            <div class="feature-card__icon"><i class="fas fa-users"></i></div>
+                            <h3>Команда</h3>
+                            <p>Монтажники, инженеры, пусконаладка.</p>
+                        </article>
+
+                        <article class="feature-card reveal">
+                            <div class="feature-card__icon"><i class="fas fa-star"></i></div>
+                            <h3>Ответственность</h3>
+                            <p>Соблюдение норм, аккуратность, контроль качества.</p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICES SECTION -->
+        <section class="services" id="services">
+            <div class="container">
+                <h2 class="section-title reveal">Услуги</h2>
+
+                <div class="services-grid">
+                    <article class="service-card reveal">
+                        <div class="service-card__icon"><i class="fas fa-clipboard-check"></i></div>
+                        <h3>Обследование и оценка</h3>
+                        <p>Проверка проекта, выявление слабых мест, рекомендации по доработкам.</p>
+                    </article>
+
+                    <article class="service-card reveal">
+                        <div class="service-card__icon"><i class="fas fa-plug"></i></div>
+                        <h3>Электромонтаж “под ключ”</h3>
+                        <p>Полный спектр работ в жилых, коммерческих и промышленных помещениях.</p>
+                    </article>
+
+                    <article class="service-card reveal">
+                        <div class="service-card__icon"><i class="fas fa-lightbulb"></i></div>
+                        <h3>Электроснабжение и освещение</h3>
+                        <p>Уличное освещение, подключение оборудования, шкафы и линии.</p>
+                    </article>
+
+                    <article class="service-card reveal">
+                        <div class="service-card__icon"><i class="fas fa-gauge-high"></i></div>
+                        <h3>КИП и автоматика</h3>
+                        <p>Монтаж контрольно‑измерительных приборов, сигнализация, автоматика.</p>
+                    </article>
+
+                    <article class="service-card reveal">
+                        <div class="service-card__icon"><i class="fas fa-fan"></i></div>
+                        <h3>Вентиляция и климат</h3>
+                        <p>Монтаж и пусконаладка электрической части систем вентиляции и климат‑контроля.</p>
+                    </article>
+
+                    <article class="service-card reveal">
+                        <div class="service-card__icon"><i class="fas fa-truck"></i></div>
+                        <h3>Материалы и документация</h3>
+                        <p>Подбор поставщиков, заказ расходников, подготовка документации.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- PORTFOLIO + CLIENTS (MERGED) -->
+        <section class="portfolio" id="portfolio">
+            <div class="container">
+                <h2 class="section-title reveal">Портфолио и клиенты</h2>
+
+                <!-- Cards are rendered by JS -->
+                <div class="work-list" id="galleryGrid" aria-live="polite"></div>
+
+                <div class="gallery-load-more">
+                    <button class="btn btn--secondary" id="loadMoreBtn" type="button">
+                        <i class="fas fa-plus"></i>
+                        Загрузить ещё
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACTS SECTION -->
+        <section class="contacts" id="contacts">
+            <div class="container">
+                <h2 class="section-title reveal">Контакты</h2>
+
+                <div class="contacts-grid">
+                    <div class="contact-form-wrapper reveal">
+                        <h3>Оставить заявку</h3>
+
+                        <!-- JS will intercept submit; without JS Formspree will still work -->
+                        <form class="contact-form" id="contactForm" action="https://formspree.io/f/meojrlde"
+                            method="POST" novalidate>
+                            <div class="form-group">
+                                <label for="name">Имя</label>
+                                <input type="text" id="name" name="name" autocomplete="name" required />
                             </div>
-                        </div>
 
-                        <div class="contact-info__item">
-                            <i class="fas fa-envelope"></i>
-                            <div>
-                                <h4>Email</h4>
-                                <a href="mailto:nagaevm@gmail.com">nagaevm@gmail.com</a>
+                            <div class="form-group">
+                                <label for="phone">Телефон</label>
+                                <input type="tel" id="phone" name="phone" autocomplete="tel" required
+                                    placeholder="+7 (___) ___-__-__" />
                             </div>
-                        </div>
 
-                        <div class="contact-info__item">
-                            <i class="fas fa-clock"></i>
-                            <div>
-                                <h4>Режим работы</h4>
-                                <p>Пн-Пт: 09:00 - 18:00</p>
-                                <p>Сб-Вс: по договорённости</p>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" autocomplete="email" required />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="message">Сообщение</label>
+                                <textarea id="message" name="message" rows="4" required></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn--primary btn--lg" id="submitBtn">
+                                <i class="fas fa-paper-plane"></i>
+                                Отправить
+                            </button>
+
+                            <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+                        </form>
+                    </div>
+
+                    <div class="contact-info-wrapper reveal">
+                        <h3>Реквизиты</h3>
+
+                        <div class="contact-info">
+                            <div class="contact-info__item">
+                                <i class="fas fa-map-pin"></i>
+                                <div>
+                                    <h4>Адрес</h4>
+                                    <p>г. Нягань, Ханты‑Мансийский автономный округ, Россия</p>
+                                </div>
+                            </div>
+
+                            <div class="contact-info__item">
+                                <i class="fas fa-phone"></i>
+                                <div>
+                                    <h4>Телефон</h4>
+                                    <a href="tel:+79991234567">+7 999 123‑45‑67</a>
+                                </div>
+                            </div>
+
+                            <div class="contact-info__item">
+                                <i class="fas fa-envelope"></i>
+                                <div>
+                                    <h4>Email</h4>
+                                    <a href="mailto:nagaevm@gmail.com">nagaevm@gmail.com</a>
+                                </div>
+                            </div>
+
+                            <div class="contact-info__item">
+                                <i class="fas fa-clock"></i>
+                                <div>
+                                    <h4>Режим работы</h4>
+                                    <p>Пн‑Пт: 09:00 – 18:00</p>
+                                    <p>Сб‑Вс: по договорённости</p>
+                                </div>
+                            </div>
+
+                            <div class="social-links">
+                                <a class="social-link" href="tg://resolve?domain=@Artyfact24" target="_blank" rel="nofollow" title="Telegram" aria-label="Telegram">
+                                    <i class="fab fa-telegram"></i>
+                                </a>
+                                <a class="social-link" href="https://wa.me/79028566663?text=Здравствуйте!%20У%20меня%20есть%20вопрос" target="_blank" rel="nofollow" title="WhatsApp" aria-label="WhatsApp">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Социальные сети -->
-                    <div class="social-links">
-                        <a href="#" class="social-link" title="Telegram" aria-label="Telegram">
-                            <i class="fab fa-telegram"></i>
-                        </a>
-                        <a href="#" class="social-link" title="WhatsApp" aria-label="WhatsApp">
-                            <i class="fab fa-whatsapp"></i>
-                        </a>
-                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
             <div class="footer__content">
-                <p>&copy; 2026 ЭМ-Строй. Все права защищены.</p>
+                <p>&copy; 2025 Импульс Инжиниринг. Все права защищены.</p>
             </div>
         </div>
     </footer>

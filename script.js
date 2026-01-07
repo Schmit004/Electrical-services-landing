@@ -1,331 +1,324 @@
-/* ============================================
-   GALLERY DATA
-   ============================================ */
+/* =========================================================
+   UI helpers
+   ========================================================= */
+const $ = (selector, root = document) => root.querySelector(selector);
+const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
 
-// Массив фотографий
-const galleryImages = [
-    // Жилые объекты (residential)
-    { id: 1, src: 'assets/portfolio/residential/photo_9.jpg', category: 'residential', title: 'Установка розеток' },
-    { id: 2, src: 'assets/portfolio/residential/photo_10.jpg', category: 'residential', title: 'Монтаж проводки' },
-
-    // Коммерческие объекты (commercial)
-    { id: 3, src: 'assets/portfolio/commercial/photo_1.jpg', category: 'commercial', title: 'Офисное освещение' },
-    { id: 4, src: 'assets/portfolio/commercial/photo_2.jpg', category: 'commercial', title: 'Распределительный щит' },
-    { id: 5, src: 'assets/portfolio/commercial/photo_3.jpg', category: 'commercial', title: 'Кабельные сети' },
-
-    // Промышленные объекты (industrial)
-    { id: 6, src: 'assets/portfolio/industrial/photo_4.jpg', category: 'industrial', title: 'Промышленное производство' },
-    { id: 7, src: 'assets/portfolio/industrial/photo_5.jpg', category: 'industrial', title: 'Электрическое оборудование' },
-    { id: 8, src: 'assets/portfolio/industrial/photo_6.jpg', category: 'industrial', title: 'Трансформатор' },
-
-    // Уличные работы (outdoor)
-    { id: 9, src: 'assets/portfolio/outdoor/photo_7.jpg', category: 'outdoor', title: 'Опоры ЛЭП' },
-    { id: 10, src: 'assets/portfolio/outdoor/photo_8.jpg', category: 'outdoor', title: 'Уличное освещение' },
-    { id: 11, src: 'assets/portfolio/outdoor/photo_13.jpg', category: 'outdoor', title: 'Столб электросети' },
-
-    // Вентиляция (ventilation)
-    { id: 12, src: 'assets/portfolio/ventilation/photo_11.jpg', category: 'ventilation', title: 'Система вентиляции' },
-    { id: 13, src: 'assets/portfolio/ventilation/photo_12.jpg', category: 'ventilation', title: 'Воздухопровод' },
-    { id: 14, src: 'assets/portfolio/ventilation/photo_14.jpg', category: 'ventilation', title: 'Монтаж вентиляции' },
-    { id: 14, src: 'assets/portfolio/ventilation/photo_15.jpg', category: 'ventilation', title: 'Монтаж вентиляции' },
-];
-
-
-/* ============================================
-PORTFOLIO
-============================================ */
-
-document.addEventListener('DOMContentLoaded', () => {
-  const grid = document.getElementById('galleryGrid');
-  const loadMoreBtn = document.getElementById('loadMoreBtn');
-  const filterBtns = document.querySelectorAll('.filter-btn');
-
-  if (!grid) return;
-
-  const state = { filter: 'all', limit: 6 };
-  let renderedCount = 0;
-
-  function debounce(fn, ms = 120) {
-    let t = null;
-    return (...args) => {
-      clearTimeout(t);
-      t = setTimeout(() => fn(...args), ms);
-    };
-  }
-
-  function applyMasonry() {
-    const styles = getComputedStyle(grid);
-    const rowHeight = parseInt(styles.getPropertyValue('grid-auto-rows'), 10) || 10;
-
-    const gapStr = (styles.getPropertyValue('gap') || styles.getPropertyValue('grid-row-gap') || '0').trim();
-    const rowGap = parseInt(gapStr.split(' ')[0], 10) || 0;
-
-    const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
-
-    grid.querySelectorAll('.gallery-item').forEach((item) => {
-      const img = item.querySelector('img');
-      if (!img || !img.complete || !img.naturalWidth) return;
-
-      const ratio = img.naturalWidth / img.naturalHeight;
-      const wide = isDesktop && ratio > 1.25;
-      item.classList.toggle('is-wide', wide);
-
-      const w2 = item.getBoundingClientRect().width;
-      const targetHeight = Math.round(w2 / ratio);
-      const span = Math.ceil((targetHeight + rowGap) / (rowHeight + rowGap));
-      item.style.gridRowEnd = `span ${span}`;
-    });
-  }
-
-  const scheduleMasonry = debounce(() => {
-    requestAnimationFrame(applyMasonry);
-  }, 80);
-
-  function filteredList() {
-    return state.filter === 'all'
-      ? galleryImages
-      : galleryImages.filter((img) => img.category === state.filter);
-  }
-
-  function appendItems(from, to) {
-    const list = filteredList().slice(from, to);
-
-    list.forEach((image, i) => {
-      const item = document.createElement('div');
-      item.className = 'gallery-item';
-      item.style.animationDelay = `${(from + i) * 50}ms`;
-
-      item.innerHTML = `<img src="${image.src}" alt="${image.title}" loading="lazy">`;
-
-      const imgEl = item.querySelector('img');
-      imgEl.addEventListener('load', scheduleMasonry, { once: true });
-
-      grid.appendChild(item);
-    });
-  }
-
-  function render({ reset = false } = {}) {
-    const all = filteredList();
-
-    if (reset) {
-      grid.innerHTML = '';
-      renderedCount = 0;
-    }
-
-    const nextCount = Math.min(state.limit, all.length);
-    if (nextCount > renderedCount) {
-      appendItems(renderedCount, nextCount);
-      renderedCount = nextCount;
-    }
-
-    if (loadMoreBtn) {
-      const hasMore = renderedCount < all.length;
-      loadMoreBtn.style.visibility = hasMore ? 'visible' : 'hidden';
-      loadMoreBtn.disabled = !hasMore;
-    }
-
-    scheduleMasonry();
-  }
-
-  // Фильтры
-  filterBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach((b) => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      state.filter = btn.dataset.filter || 'all';
-      state.limit = 6;
-      render({ reset: true });
-    });
-  });
-
-  // Загрузить ещё (фиксируем позицию кнопки, чтобы экран не уезжал)
-  if (loadMoreBtn) {
-    loadMoreBtn.addEventListener('click', () => {
-      const prevTop = loadMoreBtn.getBoundingClientRect().top;
-
-      state.limit += 6;
-      render({ reset: false });
-
-      requestAnimationFrame(() => {
-        const newTop = loadMoreBtn.getBoundingClientRect().top;
-        window.scrollBy(0, newTop - prevTop);
-      });
-    });
-  }
-
-  window.addEventListener('resize', scheduleMasonry);
-
-  render({ reset: true });
-});
-
-
-/* ============================================
-   HEADER & NAVIGATION
-   ============================================ */
-
-const menuToggle = document.getElementById('menuToggle');
-const navMenu = document.getElementById('navMenu');
-const header = document.getElementById('header');
-
-// Бургер-меню
-menuToggle.addEventListener('click', () => {
-    navMenu.classList.toggle('active');
-    menuToggle.classList.toggle('active');
-});
-
-// Закрыть меню при клике на ссылку
-const navLinks = navMenu.querySelectorAll('.nav-link');
-navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        navMenu.classList.remove('active');
-        menuToggle.classList.remove('active');
-    });
-});
-
-// Скрыть меню при клике вне его
-document.addEventListener('click', (e) => {
-    if (!header.contains(e.target)) {
-        navMenu.classList.remove('active');
-        menuToggle.classList.remove('active');
-    }
-});
-
-/* ============================================
-   INTERSECTION OBSERVER FOR ANIMATIONS
-   ============================================ */
-
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -100px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            observer.unobserve(entry.target);
-        }
-    });
-}, observerOptions);
-
-// Наблюдаем за элементами с анимацией
-document.querySelectorAll('.animate-fade-up').forEach(el => {
-    observer.observe(el);
-});
-
-/* ============================================
-   SMOOTH SCROLL
-   ============================================ */
-
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
-
-/* ============================================
-   CONTACT FORM
-   ============================================ */
-
-const contactForm = document.getElementById('contactForm');
-const formStatus = document.getElementById('formStatus');
-
-if (contactForm) {
-    contactForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const formData = new FormData(contactForm);
-        const name = formData.get('name');
-        const email = formData.get('email');
-        const phone = formData.get('phone');
-        const message = formData.get('message');
-
-        // Валидация
-        if (!name || !email || !phone || !message) {
-            formStatus.textContent = '❌ Пожалуйста, заполните все поля';
-            formStatus.className = 'form-status error';
-            return;
-        }
-
-        // Email валидация
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            formStatus.textContent = '❌ Пожалуйста, введите корректный email';
-            formStatus.className = 'form-status error';
-            return;
-        }
-
-        // Phone валидация
-        const phoneRegex = /^[\d\s\-\+\(\)]+$/;
-        if (!phoneRegex.test(phone)) {
-            formStatus.textContent = '❌ Пожалуйста, введите корректный номер телефона';
-            formStatus.className = 'form-status error';
-            return;
-        }
-
-        try {
-            // Отправка на Formspree
-            const response = await fetch('https://formspree.io/f/meojrlde', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    name: name,
-                    email: email,
-                    phone: phone,
-                    message: message
-                })
-            });
-
-            if (response.ok) {
-                formStatus.textContent = '✅ Спасибо! Ваше сообщение отправлено. Мы свяжемся с вами в ближайшее время.';
-                formStatus.className = 'form-status success';
-                contactForm.reset();
-                setTimeout(() => {
-                    formStatus.textContent = '';
-                }, 5000);
-            } else {
-                formStatus.textContent = '❌ Ошибка отправки. Пожалуйста, попробуйте позже.';
-                formStatus.className = 'form-status error';
-            }
-        } catch (error) {
-            formStatus.textContent = '❌ Ошибка отправки. Пожалуйста, попробуйте позже.';
-            formStatus.className = 'form-status error';
-        }
-    });
+function setHeaderShadow() {
+  const header = $('#header');
+  if (!header) return;
+  header.classList.toggle('is-scrolled', window.scrollY > 4);
 }
 
-/* ============================================
-   PAGE SCROLL ANIMATIONS
-   ============================================ */
+/* =========================================================
+   Smooth scroll (anchors)
+   ========================================================= */
+$$('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', (e) => {
+    const href = a.getAttribute('href');
+    if (!href || href === '#') return;
 
-// Добавляем анимации при загрузке страницы
-window.addEventListener('load', () => {
-    document.querySelectorAll('.animate-fade-up').forEach((el, index) => {
-        el.style.animationDelay = `${index * 50}ms`;
-    });
-});
+    const target = $(href);
+    if (!target) return;
 
-/* ============================================
-   HEADER SHADOW ON SCROLL
-   ============================================ */
+    e.preventDefault();
 
-window.addEventListener('scroll', () => {
-    const header = document.getElementById('header');
-    if (window.scrollY > 0) {
-        header.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
-    } else {
-        header.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
+    // close mobile menu if open
+    const navMenu = $('#navMenu');
+    const menuToggle = $('#menuToggle');
+    if (navMenu && navMenu.classList.contains('active')) {
+      navMenu.classList.remove('active');
+      if (menuToggle) {
+        menuToggle.classList.remove('is-open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      }
     }
+
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
 });
 
-console.log('✅ Script loaded successfully!');
+/* =========================================================
+   Mobile menu toggle
+   ========================================================= */
+(() => {
+  const toggle = $('#menuToggle');
+  const navMenu = $('#navMenu');
+  if (!toggle || !navMenu) return;
+
+  toggle.addEventListener('click', () => {
+    const next = !navMenu.classList.contains('active');
+    navMenu.classList.toggle('active', next);
+    toggle.classList.toggle('is-open', next);
+    toggle.setAttribute('aria-expanded', String(next));
+  });
+
+  // close on outside click
+  document.addEventListener('click', (e) => {
+    if (!navMenu.classList.contains('active')) return;
+    const isInsideMenu = navMenu.contains(e.target);
+    const isToggle = toggle.contains(e.target);
+    if (!isInsideMenu && !isToggle) {
+      navMenu.classList.remove('active');
+      toggle.classList.remove('is-open');
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+})();
+
+/* =========================================================
+   Reveal on scroll (IntersectionObserver)
+   ========================================================= */
+(() => {
+  const items = $$('.reveal');
+  if (!items.length) return;
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(ent => {
+      if (ent.isIntersecting) {
+        ent.target.classList.add('is-visible');
+        io.unobserve(ent.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  items.forEach(el => io.observe(el));
+})();
+
+/* =========================================================
+   Header shadow on scroll
+   ========================================================= */
+window.addEventListener('scroll', setHeaderShadow);
+window.addEventListener('load', setHeaderShadow);
+
+/* =========================================================
+   Portfolio data + render (NO FILTERS)
+   - Shows 4 by default
+   - Load more by button
+   ========================================================= */
+(() => {
+  const grid = $('#galleryGrid');
+  const loadMoreBtn = $('#loadMoreBtn');
+
+  if (!grid || !loadMoreBtn) return;
+
+  // Подстрой пути/описания под реальные проекты при необходимости
+  const works = [
+    {
+      id: 1,
+      title: 'Электромонтаж в жилом помещении',
+      category: 'residential',
+      client: 'Частный заказчик',
+      place: 'Нягань',
+      year: '2024',
+      description: 'Разводка линий, щит, розеточные группы, освещение. Аккуратная прокладка и маркировка.',
+      image: 'assets/portfolio/01.jpg'
+    },
+    {
+      id: 2,
+      title: 'Коммерческий объект: офис/магазин',
+      category: 'commercial',
+      client: 'Бизнес‑клиент',
+      place: 'Нягань',
+      year: '2023',
+      description: 'Силовые линии, освещение, согласование решений под эксплуатационные требования.',
+      image: 'assets/portfolio/02.jpg'
+    },
+    {
+      id: 3,
+      title: 'Промышленный участок',
+      category: 'industrial',
+      client: 'Промышленная компания',
+      place: 'ХМАО',
+      year: '2022',
+      description: 'Монтаж линий, подключение оборудования, соблюдение требований безопасности.',
+      image: 'assets/portfolio/03.jpg'
+    },
+    {
+      id: 4,
+      title: 'Уличное освещение территории',
+      category: 'outdoor',
+      client: 'Организация',
+      place: 'ХМАО',
+      year: '2023',
+      description: 'Опоры, кабельные трассы, подключение светильников, проверка работоспособности.',
+      image: 'assets/portfolio/04.jpg'
+    },
+    {
+      id: 5,
+      title: 'Вентиляция и климат: электрика',
+      category: 'ventilation',
+      client: 'Коммерческий объект',
+      place: 'Нягань',
+      year: '2024',
+      description: 'Подключение щитов/автоматики, питание оборудования, пусконаладка электрической части.',
+      image: 'assets/portfolio/05.jpg'
+    },
+    {
+      id: 6,
+      title: 'Электроснабжение: модернизация щита',
+      category: 'commercial',
+      client: 'Бизнес‑клиент',
+      place: 'Нягань',
+      year: '2022',
+      description: 'Перекоммутация, защита, оптимизация схемы и проверка нагрузок.',
+      image: 'assets/portfolio/06.jpg'
+    }
+  ];
+
+  const INITIAL_VISIBLE = 4;
+  const STEP = 4;
+
+  let visibleCount = INITIAL_VISIBLE;
+
+  function humanCategory(cat) {
+    const map = {
+      residential: 'Жилые',
+      commercial: 'Коммерческие',
+      industrial: 'Промышленные',
+      outdoor: 'Уличное',
+      ventilation: 'Вентиляция'
+    };
+    return map[cat] || cat;
+  }
+
+  function escapeHtml(s) {
+    return String(s)
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
+  }
+
+  function createCard(work) {
+    const card = document.createElement('article');
+    card.className = 'work-card';
+
+    const media = document.createElement('div');
+    media.className = 'work-media';
+
+    const img = document.createElement('img');
+    img.loading = 'lazy';
+    img.alt = work.title;
+    img.src = work.image;
+
+    img.addEventListener('error', () => {
+      media.classList.add('is-fallback');
+    });
+
+    media.appendChild(img);
+
+    const body = document.createElement('div');
+    body.className = 'work-body';
+
+    const title = document.createElement('h3');
+    title.className = 'work-title';
+    title.textContent = work.title;
+
+    const meta = document.createElement('div');
+    meta.className = 'work-meta';
+    meta.innerHTML = `
+      <span class="badge"><i class="fa-solid fa-tag"></i>${humanCategory(work.category)}</span>
+      <span class="badge"><i class="fa-solid fa-handshake"></i>${escapeHtml(work.client)}</span>
+      <span class="badge"><i class="fa-solid fa-location-dot"></i>${escapeHtml(work.place)}</span>
+      <span class="badge"><i class="fa-solid fa-calendar"></i>${escapeHtml(work.year)}</span>
+    `;
+
+    const desc = document.createElement('p');
+    desc.className = 'work-desc';
+    desc.textContent = work.description;
+
+    body.appendChild(title);
+    body.appendChild(meta);
+    body.appendChild(desc);
+
+    card.appendChild(media);
+    card.appendChild(body);
+
+    return card;
+  }
+
+  function render() {
+    const slice = works.slice(0, visibleCount);
+    grid.innerHTML = '';
+    slice.forEach(w => grid.appendChild(createCard(w)));
+
+    const hasMore = visibleCount < works.length;
+    loadMoreBtn.style.display = hasMore ? '' : 'none';
+  }
+
+  loadMoreBtn.addEventListener('click', () => {
+    visibleCount += STEP;
+    render();
+  });
+
+  render();
+})();
+
+/* =========================================================
+   Contact form (Formspree) - fixed + robust
+   ========================================================= */
+(() => {
+  const form = $('#contactForm');
+  const statusEl = $('#formStatus');
+  const submitBtn = $('#submitBtn');
+
+  if (!form || !statusEl) return;
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const phoneRegex = /^[\d\s\-+()]{5,}$/;
+
+  function setStatus(text, type) {
+    statusEl.textContent = text;
+    statusEl.className = `form-status ${type || ''}`.trim();
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const fd = new FormData(form);
+    const name = String(fd.get('name') || '').trim();
+    const phone = String(fd.get('phone') || '').trim();
+    const email = String(fd.get('email') || '').trim();
+    const message = String(fd.get('message') || '').trim();
+
+    if (!name || !phone || !email || !message) {
+      setStatus('❌ Пожалуйста, заполните все поля', 'error');
+      return;
+    }
+    if (!emailRegex.test(email)) {
+      setStatus('❌ Пожалуйста, введите корректный email', 'error');
+      return;
+    }
+    if (!phoneRegex.test(phone)) {
+      setStatus('❌ Пожалуйста, введите корректный номер телефона', 'error');
+      return;
+    }
+
+    const endpoint = form.getAttribute('action') || 'https://formspree.io/f/meojrlde';
+
+    try {
+      if (submitBtn) submitBtn.disabled = true;
+      setStatus('Отправка...', '');
+
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        body: fd,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (res.ok) {
+        setStatus('✅ Спасибо! Ваше сообщение отправлено. Мы свяжемся с вами в ближайшее время.', 'success');
+        form.reset();
+        setTimeout(() => setStatus('', ''), 6000);
+      } else {
+        setStatus('❌ Ошибка отправки. Пожалуйста, попробуйте позже.', 'error');
+      }
+    } catch (err) {
+      setStatus('❌ Ошибка отправки. Проверьте интернет/настройки браузера и попробуйте ещё раз.', 'error');
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
+    }
+  });
+})();
