@@ -14,14 +14,14 @@ function setHeaderShadow() {
    Smooth scroll (anchors)
    ========================================================= */
 $$('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', (e) => {
+  a.addEventListener('click', (evt) => {
     const href = a.getAttribute('href');
     if (!href || href === '#') return;
 
     const target = $(href);
     if (!target) return;
 
-    e.preventDefault();
+    evt.preventDefault();
 
     // close mobile menu if open
     const navMenu = $('#navMenu');
@@ -54,10 +54,10 @@ $$('a[href^="#"]').forEach(a => {
   });
 
   // close on outside click
-  document.addEventListener('click', (e) => {
+  document.addEventListener('click', (evt) => {
     if (!navMenu.classList.contains('active')) return;
-    const isInsideMenu = navMenu.contains(e.target);
-    const isToggle = toggle.contains(e.target);
+    const isInsideMenu = navMenu.contains(evt.target);
+    const isToggle = toggle.contains(evt.target);
     if (!isInsideMenu && !isToggle) {
       navMenu.classList.remove('active');
       toggle.classList.remove('is-open');
@@ -257,14 +257,18 @@ window.addEventListener('load', setHeaderShadow);
 })();
 
 /* =========================================================
-   Contact form (Formspree) - fixed + robust
+   Contact form (Formspree) - fixed + robust (+ agreement checkbox)
    ========================================================= */
 (() => {
   const form = $('#contactForm');
   const statusEl = $('#formStatus');
   const submitBtn = $('#submitBtn');
+  const agreementEl = $('#agreement');
 
   if (!form || !statusEl) return;
+
+  const ACCESS_KEY = '9708b224-60a7-4b48-82dd-eda812ff216d';
+  const DEFAULT_ENDPOINT = 'https://api.web3forms.com/submit';
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const phoneRegex = /^[\d\s\-+()]{5,}$/;
@@ -274,10 +278,17 @@ window.addEventListener('load', setHeaderShadow);
     statusEl.className = `form-status ${type || ''}`.trim();
   }
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+  agreementEl?.addEventListener('change', () => {
+    if (agreementEl.checked) {
+      setStatus('', '');
+    }
+  });
+
+  form.addEventListener('submit', async (evt) => {
+    evt.preventDefault();
 
     const fd = new FormData(form);
+
     const name = String(fd.get('name') || '').trim();
     const phone = String(fd.get('phone') || '').trim();
     const email = String(fd.get('email') || '').trim();
@@ -296,24 +307,33 @@ window.addEventListener('load', setHeaderShadow);
       return;
     }
 
-    const endpoint = form.getAttribute('action') || 'https://formspree.io/f/meojrlde';
+    const agreed = !!agreementEl?.checked;
+    if (!agreed) {
+      setStatus('❌ Пожалуйста, подтвердите согласие на обработку персональных данных', 'error');
+      return;
+    }
+
+    if (!fd.get('access_key')) fd.append('access_key', ACCESS_KEY);
+    const endpoint = form.getAttribute('action') || DEFAULT_ENDPOINT;
 
     try {
       if (submitBtn) submitBtn.disabled = true;
       setStatus('Отправка...', '');
 
-      const res = await fetch(endpoint, {
-        method: 'POST',
-        body: fd,
-        headers: { 'Accept': 'application/json' }
-      });
+      const res = await fetch(endpoint, { method: 'POST', body: fd });
+      let data = null;
 
-      if (res.ok) {
+      try {
+        data = await res.json();
+      } catch (_) {}
+
+      if (res.ok && data?.success !== false) {
         setStatus('✅ Спасибо! Ваше сообщение отправлено. Мы свяжемся с вами в ближайшее время.', 'success');
         form.reset();
-        setTimeout(() => setStatus('', ''), 6000);
+        setTimeout(() => setStatus('', ''), 5000);
       } else {
-        setStatus('❌ Ошибка отправки. Пожалуйста, попробуйте позже.', 'error');
+        const msg = data?.message ? `❌ ${data.message}` : '❌ Ошибка отправки. Пожалуйста, попробуйте позже.';
+        setStatus(msg, 'error');
       }
     } catch (err) {
       setStatus('❌ Ошибка отправки. Проверьте интернет/настройки браузера и попробуйте ещё раз.', 'error');

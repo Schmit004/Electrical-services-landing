@@ -12,12 +12,15 @@
         content="электромонтаж, электроснабжение, КИПиА, уличное освещение, Нягань, ХМАО, Импульс Инжиниринг" />
 
     <meta property="og:title" content="Импульс Инжиниринг — электромонтажные работы" />
-    <meta property="og:description" content="Электромонтажные работы для жилых, коммерческих и промышленных объектов. Опыт 15+ лет." />
+    <meta property="og:description"
+        content="Электромонтажные работы для жилых, коммерческих и промышленных объектов. Опыт 15+ лет." />
     <meta property="og:type" content="website" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sansation:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Tektur:wght@400..900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Sansation:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Tektur:wght@400..900&display=swap"
+        rel="stylesheet">
 
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -31,12 +34,14 @@
                 <div class="navbar__content">
                     <picture>
                         <source srcset="assets/logo-mobile.png" media="(max-width: 860px)" />
-                        <img class="logo__image" src="assets/logo-desktop.png" width="80" height="72" alt="Импульс Инжиниринг" />
+                        <img class="logo__image" src="assets/logo-desktop.png" width="80" height="72"
+                            alt="Импульс Инжиниринг" />
                     </picture>
 
-                    <button class="navbar__toggle" id="menuToggle" aria-label="Открыть меню" aria-expanded="false"
-                        aria-controls="navMenu">
-                        <span></span><span></span><span></span>
+                    <button class="navbar__toggle" id="menuToggle" aria-label="Открыть меню" aria-expanded="false" aria-controls="navMenu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
                     </button>
 
                     <ul class="navbar__menu" id="navMenu">
@@ -47,8 +52,7 @@
                     </ul>
 
                     <a href="#contacts" class="btn btn--primary btn--sm navbar__cta">
-                        <i class="fas fa-phone"></i>
-                        Связаться
+                        <i class="fas fa-phone"></i>Связаться
                     </a>
                 </div>
             </div>
@@ -58,14 +62,14 @@
     <main>
         <!-- HERO SECTION -->
         <section class="hero" id="hero">
-            <div class="hero__bg" aria-hidden="true"></div>
 
             <div class="container">
                 <div class="hero__grid">
                     <div class="hero__content reveal">
                         <h1 class="hero__title">Профессиональные электромонтажные услуги</h1>
                         <p class="hero__subtitle">
-                            Импульс Инжиниринг — команда специалистов с опытом более 15 лет. Реализуем проекты “под ключ”:
+                            Импульс Инжиниринг — команда специалистов с опытом более 15 лет. Реализуем проекты “под
+                            ключ”:
                             от обследования и
                             подбора решений до монтажа и пусконаладки.
                         </p>
@@ -112,7 +116,8 @@
                 <div class="about__grid">
                     <div class="about__text reveal">
                         <p>
-                            Импульс Инжиниринг — это команда профессионалов с опытом более 15 лет в сфере электромонтажных
+                            Импульс Инжиниринг — это команда профессионалов с опытом более 15 лет в сфере
+                            электромонтажных
                             работ.
                             Мы успешно реализовали более сотни проектов различной сложности.
                         </p>
@@ -224,8 +229,11 @@
                         <h3>Оставить заявку</h3>
 
                         <!-- JS will intercept submit; without JS Formspree will still work -->
-                        <form class="contact-form" id="contactForm" action="https://formspree.io/f/meojrlde"
+                        <form class="contact-form" id="contactForm" action="https://api.web3forms.com/submit"
                             method="POST" novalidate>
+                            <input type="hidden" name="access_key" value="9708b224-60a7-4b48-82dd-eda812ff216d">
+                            <input type="hidden" name="subject" value="Заявка с сайта Импульс Электро">
+
                             <div class="form-group">
                                 <label for="name">Имя</label>
                                 <input type="text" id="name" name="name" autocomplete="name" required />
@@ -245,6 +253,14 @@
                             <div class="form-group">
                                 <label for="message">Сообщение</label>
                                 <textarea id="message" name="message" rows="4" required></textarea>
+                            </div>
+
+                            <div class="form-group form-checkbox">
+                                <input type="checkbox" id="agreement" name="agreement" required>
+                                <label for="agreement">
+                                    Я согласен на <a href="./privacy-policy.html" target="_blank" rel="noopener">
+                                        обработку персональных данных</a>
+                                </label>
                             </div>
 
                             <button type="submit" class="btn btn--primary btn--lg" id="submitBtn">
@@ -294,10 +310,13 @@
                             </div>
 
                             <div class="social-links">
-                                <a class="social-link" href="tg://resolve?domain=@Artyfact24" target="_blank" rel="nofollow" title="Telegram" aria-label="Telegram">
+                                <a class="social-link" href="tg://resolve?domain=@Artyfact24" target="_blank"
+                                    rel="nofollow" title="Telegram" aria-label="Telegram">
                                     <i class="fab fa-telegram"></i>
                                 </a>
-                                <a class="social-link" href="https://wa.me/79028566663?text=Здравствуйте!%20У%20меня%20есть%20вопрос" target="_blank" rel="nofollow" title="WhatsApp" aria-label="WhatsApp">
+                                <a class="social-link"
+                                    href="https://wa.me/79028566663?text=Здравствуйте!%20У%20меня%20есть%20вопрос"
+                                    target="_blank" rel="nofollow" title="WhatsApp" aria-label="WhatsApp">
                                     <i class="fab fa-whatsapp"></i>
                                 </a>
                             </div>
@@ -312,11 +331,14 @@
     <footer class="footer">
         <div class="container">
             <div class="footer__content">
-                <p>&copy; 2025 Импульс Инжиниринг. Все права защищены.</p>
+            <p class="footer__copyright">&copy; 2025 Импульс Инжиниринг.</p>
+
+            <a class="footer__link" href="./privacy-policy.html" target="_blank" rel="noopener">
+                Политика конфиденциальности
+            </a>
             </div>
         </div>
     </footer>
-
     <script src="script.js"></script>
 </body>
 
