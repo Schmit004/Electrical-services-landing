@@ -107,8 +107,8 @@ window.addEventListener('load', setHeaderShadow);
       category: 'commercial',
       client: 'Организация',
       place: 'Нягань',
-      year: '2023-2025',
-      description: 'Объекты: офисные здания, общежитие, столовая, база отдыха. На объектах выполнен полный комплекс электромонтажных работ от сборки ВРУ до установки электротехнических изделий общего назначения. Смонтированы системы автоматического управления приточно-вытяжной вентилляцией, выполнена настройка и пусконаладка.',
+      year: '2020-2025',
+      description: 'Объекты: офисные здания, общежитие, столовая, база отдыха. На объектах выполнен полный комплекс электромонтажных работ от сборки ВРУ до установки электротехнических изделий общего назначения. Смонтированы системы автоматического управления приточно-вытяжной вентиляцией, выполнена настройка и пусконаладка.',
       image: 'assets/portfolio/01.png'
     },
     {
@@ -118,7 +118,7 @@ window.addEventListener('load', setHeaderShadow);
       client: 'Бизнес‑клиент',
       place: 'Нягань',
       year: '2025',
-      description: 'Объекты: 10 отапливаемых автобусных остановок. Выполнена прокладка кабельных линий от подстанций и уличных электрических щитов, в траншеях и с помощью установки горизонтального наклонного бурения. Выполнено подключение остановок и настройка систем автоматического включения освещения и отопительных приборов. Проведено полное восстановление объектов городского благоустройста в местах прокладки кабеля в траншее.',
+      description: 'Объекты: 10 отапливаемых автобусных остановок. Выполнена прокладка кабельных линий от подстанций и уличных электрических щитов, в траншеях и с помощью установки горизонтального наклонного бурения. Выполнено подключение остановок и настройка систем автоматического включения освещения и отопительных приборов. Проведено полное восстановление объектов городского благоустройства в местах прокладки кабеля в траншее.',
       image: 'assets/portfolio/02.png'
     },
     {
@@ -136,7 +136,7 @@ window.addEventListener('load', setHeaderShadow);
       title: 'Жилой комплекс в Приурале',
       category: 'residential',
       client: 'Бизнес-клиент',
-      place: 'ХМАО',
+      place: 'Нягань',
       year: '2022-2024',
       description: 'Объекты: квартиры в многоквартирном доме. Выполнено подключение щитов/автоматики, прокладка кабельных линий, расключение распаячных коробок, установка электротехнических изделий общего назначения.',
       image: 'assets/portfolio/04.png'
@@ -173,7 +173,7 @@ window.addEventListener('load', setHeaderShadow);
     },
     {
       id: 8,
-      title: 'Няганьская ГРЭС',
+      title: 'Няганская ГРЭС',
       category: 'industrial',
       client: 'Промышленная компания',
       place: 'Нягань',
@@ -183,7 +183,7 @@ window.addEventListener('load', setHeaderShadow);
     },
     {
       id: 9,
-      title: 'Няганьская ГРЭС',
+      title: 'Няганская ГРЭС',
       category: 'industrial',
       client: 'Промышленная компания',
       place: 'Нягань',
@@ -193,7 +193,7 @@ window.addEventListener('load', setHeaderShadow);
     },
     {
       id: 10,
-      title: 'Няганьская ГРЭС',
+      title: 'Няганская ГРЭС',
       category: 'industrial',
       client: 'Промышленная компания',
       place: 'Нягань',
@@ -256,6 +256,7 @@ window.addEventListener('load', setHeaderShadow);
   const INITIAL_VISIBLE = 4;
   const STEP = 4;
   let visibleCount = INITIAL_VISIBLE;
+  let renderedCount = 0;
 
   function humanCategory(cat) {
     const map = {
@@ -263,19 +264,19 @@ window.addEventListener('load', setHeaderShadow);
       commercial: 'Коммерческие',
       industrial: 'Промышленные',
       outdoor: 'Наружные работы',
-      ventilation: 'Вентиляция'
     };
     return map[cat] || cat;
   }
 
   function escapeHtml(s) {
     return String(s)
-      .replaceAll('&', '&amp;')
-      .replaceAll('<', '&lt;')
-      .replaceAll('>', '&gt;')
-      .replaceAll('"', '&quot;')
-      .replaceAll("'", '&#039;');
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
   }
+
 
   function createCard(work) {
     const card = document.createElement('article');
@@ -326,9 +327,11 @@ window.addEventListener('load', setHeaderShadow);
   }
 
   function render() {
-    const slice = works.slice(0, visibleCount);
-    grid.innerHTML = '';
-    slice.forEach(w => grid.appendChild(createCard(w)));
+    const newItems = works.slice(renderedCount, visibleCount);
+
+    newItems.forEach(w => grid.appendChild(createCard(w)));
+
+    renderedCount = visibleCount;
 
     const hasMore = visibleCount < works.length;
     loadMoreBtn.style.display = hasMore ? '' : 'none';
@@ -343,7 +346,7 @@ window.addEventListener('load', setHeaderShadow);
 })();
 
 /* =========================================================
-   Contact form (Formspree) - fixed + robust (+ agreement checkbox)
+   Contact form (Formspree)
    ========================================================= */
 (() => {
   const form = $('#contactForm');
